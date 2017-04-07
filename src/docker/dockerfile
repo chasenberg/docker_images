@@ -1,0 +1,41 @@
+###############################################
+#OwnCloud Container
+###############################################
+
+FROM ubuntu
+
+RUN apt-get update
+RUN apt-get install apache2
+#Install your favorite editor :-)
+RUN apt-get install vim
+RUN echo "ServerName server_domain_or_IP" > /etc/apache2/apache2.conf
+#Check for syntax errors
+RUN apache2ctl configtest
+#Restart Apache to update
+RUN systemctl restart apache2
+
+#Secure webserver to allow HTTP/HTTPS traffic
+RUN apt-get install ufw gufw
+#Check if ufw has application profile for Apache-webserver
+RUN ufw app list
+#Check ports
+RUN ufw app info "Apache Full"
+#Allow incoming traffic on ports 80,443 and
+RUN ufw allow in "Apache Full"
+
+
+#Setup MySQL automatically
+RUN apt-get install mysql-server
+RUN export DEBIAN_FRONTEND="noninteractive"
+#Change password immediately after installation or set your own before starting
+RUN debconf-set-selections <<< "mysql-server mysql-server/root_password password $1"
+RUN debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $1"
+#Secure MySQL
+RUN mysql_secure_installation
+
+#Install PHP
+RUN apt-get install php libapache2-mod-php php-mcrypt php-mysql
+
+
+
+curl https://download.owncloud.org/download/repositories/stable/Ubuntu_16.04/Release.key | sudo apt-key add -
