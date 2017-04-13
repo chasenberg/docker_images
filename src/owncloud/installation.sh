@@ -17,8 +17,7 @@ then
 	echo "Connection to $text is successfully established."
 fi
 
-#install MySql server
-apt-get -y install mysql-server
+
 
 #install php
 apt-get -y install php libapache2-mod-php php-mcrypt php-mysql
@@ -38,13 +37,15 @@ apt-get update
 #Install OwnCloud
 apt-get -y install owncloud owncloud-deps-php7.0 owncloud-files
 
+
+#install MySql server
+apt-get -y install mysql-server
 #Configure MySql Database
 apt-get -y install pwgen
-PASS=`pwgen -s 40 1`
-
-mysql -uroot <<MYSQL_SCRIPT
+PASS=`Tessie2017`
+mysql -u root <<MYSQL_SCRIPT
 CREATE DATABASE owncloud;
-GRANT ALL ON owncloud.* to 'owncloud'@'localhost' IDENTIFIED BY 'set_database_password';
+GRANT ALL ON owncloud.* to 'owncloud'@'localhost' IDENTIFIED BY 'Tessie2017';
 FLUSH PRIVILEGES;
 MYSQL_SCRIPT
 
