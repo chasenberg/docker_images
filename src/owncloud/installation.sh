@@ -28,12 +28,13 @@ sed -i -e 's/DirectoryIndex index.html index.cgi index.pl index.php index.xhtml 
 systemctl restart apache2
 
 #Download OwnCloud installation key
-curl https://download.owncloud.org/download/repositories/stable/Ubuntu_16.04/Release.key | sudo apt-key add -
+curl https://download.owncloud.org/download/repositories/stable/Ubuntu_16.04/Release.key | apt-key add -
 #add file to apt sources
 echo 'deb https://download.owncloud.org/download/repositories/stable/Ubuntu_16.04/ /' | sudo tee /etc/apt/sources.list.d/owncloud.list
 #Update apt
 apt-get update
 #Install OwnCloud
-apt-get install owncloud
+apt-get -y install owncloud owncloud-deps-php7.0 owncloud-files
+
 #Configure MySql Database
 mysql -u root -p
