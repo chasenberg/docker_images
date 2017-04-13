@@ -40,14 +40,15 @@ apt-get -y install owncloud owncloud-deps-php7.0 owncloud-files
 
 #install MySql server
 apt-get -y install mysql-server
+#start MySql server
+/etc/init.d/mysql start
 #Configure MySql Database
 apt-get -y install pwgen
-PASS=`Tessie2017`
-mysql -u root <<MYSQL_SCRIPT
-CREATE DATABASE owncloud;
-GRANT ALL ON owncloud.* to 'owncloud'@'localhost' IDENTIFIED BY 'Tessie2017';
-FLUSH PRIVILEGES;
-MYSQL_SCRIPT
+echo -n "Enter your OwnCloud database password: > "
+read text
+PASS=$text
+mysql -u root -p -e "CREATE DATABASE owncloud; GRANT ALL ON owncloud.* to 'owncloud'@'localhost' IDENTIFIED BY '$text';"
+#mysql -u root -p -e "GRANT ALL ON owncloud.* to 'owncloud'@'localhost' IDENTIFIED BY 'set_database_password';"
 
 echo "MySQL user created."
 echo "Username:   owncloud"
