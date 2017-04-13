@@ -2,12 +2,26 @@
 
 FROM ubuntu
 
+RUN dpkg-divert --local --rename --add /sbin/initctl
+RUN ln -s /bin/true /sbin/initctl
+
 RUN apt-get update
 RUN apt-get -y install apt-utils
 RUN apt-get -y install apache2
 RUN apt-get -y install vim
+RUN apt-get -y install sed
 RUN apt-get -y install ufw
 RUN apt-get -y install curl
 RUN apt-get -y install iputils-ping
 RUN mkdir installation
 ADD installation.sh /installation
+
+#Install MySql server
+
+RUN apt-get -y install mysql-server
+#database should be accessible from outside of the container
+ADD ./my.cnf /etc/mysql/my.cnf
+RUN sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
+
+#Owncloud listens on port 120
+EXPOSE 120
