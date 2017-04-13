@@ -30,11 +30,24 @@ systemctl restart apache2
 #Download OwnCloud installation key
 curl https://download.owncloud.org/download/repositories/stable/Ubuntu_16.04/Release.key | apt-key add -
 #add file to apt sources
-echo 'deb https://download.owncloud.org/download/repositories/stable/Ubuntu_16.04/ /' | sudo tee /etc/apt/sources.list.d/owncloud.list
+touch /etc/apt/sources.list.d/owncloud.list
+echo 'deb https://download.owncloud.org/download/repositories/stable/Ubuntu_16.04/ /' |  tee /etc/apt/sources.list.d/owncloud.list
 #Update apt
+apt-get install apt-transport-https
 apt-get update
 #Install OwnCloud
 apt-get -y install owncloud owncloud-deps-php7.0 owncloud-files
 
 #Configure MySql Database
-mysql -u root -p
+apt-get -y install pwgen
+PASS=`pwgen -s 40 1`
+
+mysql -uroot <<MYSQL_SCRIPT
+CREATE DATABASE owncloud;
+GRANT ALL ON owncloud.* to 'owncloud'@'localhost' IDENTIFIED BY 'set_database_password';
+FLUSH PRIVILEGES;
+MYSQL_SCRIPT
+
+echo "MySQL user created."
+echo "Username:   owncloud"
+echo "Password:   $PASS"
