@@ -16,11 +16,11 @@ RUN mkdir installation
 ADD installation.sh /installation
 
 #Install MySql server
+RUN export DEBIAN_FRONTEND=noninteractive
+RUN echo "mysql-server-5.6 mysql-server/root_password password root" |  debconf-set-selections
+RUN echo "mysql-server-5.6 mysql-server/root_password_again password root" |  debconf-set-selections
 
 RUN apt-get -y install mysql-server
-#database should be accessible from outside of the container
-ADD ./my.cnf /etc/mysql/my.cnf
-RUN sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
 
 #Owncloud listens on port 120
 EXPOSE 120
