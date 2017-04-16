@@ -2,7 +2,7 @@ echo -n "Enter your server name > "
 read text
 echo "ServerName $text" >> /etc/apache2/apache2.conf
 apache2ctl configtest
-systemctl restart apache2
+/etc/init.d/apache2 restart
 #check if firewall allows http and https traffic
 ufw app list
 #this should show port 80 ad 443
@@ -21,7 +21,7 @@ apt-get -y install php libapache2-mod-php php-mcrypt php-mysql
 #move php file to the first position within the string
 sed -i -e 's/DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.htm/DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm/g'  /etc/apache2/mods-enabled/dir.conf
 #Restart Apache
-systemctl restart apache2
+/etc/init.d/apache2 restart 
 #Download OwnCloud installation key
 curl https://download.owncloud.org/download/repositories/stable/Ubuntu_16.04/Release.key | apt-key add -
 #add file to apt sources
