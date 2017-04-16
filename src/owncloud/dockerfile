@@ -2,8 +2,6 @@
 
 FROM ubuntu
 
-
-
 RUN apt-get update
 RUN apt-get -y install apt-utils
 RUN apt-get -y install apache2
@@ -12,13 +10,7 @@ RUN apt-get -y install sed
 RUN apt-get -y install ufw
 RUN apt-get -y install curl
 RUN apt-get -y install iputils-ping
-#Install MySql server
-RUN export DEBIAN_FRONTEND=noninteractive
-RUN echo "mysql-server-5.6 mysql-server/root_password password root" |  debconf-set-selections
-RUN echo "mysql-server-5.6 mysql-server/root_password_again password root" |  debconf-set-selections
-RUN apt-get -y install mysql-server
-#Owncloud listens on port 120
+#Owncloud listens on port 80
 EXPOSE 80
 RUN mkdir setup
 ADD setup.sh /setup
-CMD /etc/init.d/apache2 start 
