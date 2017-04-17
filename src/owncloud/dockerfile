@@ -10,6 +10,7 @@ RUN apt-get -y install sed
 RUN apt-get -y install ufw
 RUN apt-get -y install curl
 RUN apt-get -y install iputils-ping
+RUN apt-get -y install pwgen
 #Owncloud listens on port 80
 EXPOSE 80
 RUN mkdir setup

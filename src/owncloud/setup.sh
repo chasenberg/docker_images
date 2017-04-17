@@ -20,11 +20,11 @@ fi
 #Install MySql
 echo "Generate MySql password"
 MYSQL_PASS=`pwgen -s 40 1`
+echo $MYSQL_PASS
 export DEBIAN_FRONTEND=noninteractive
 echo "mysql-server-5.6 mysql-server/root_password password $MYSQL_PASS" |  debconf-set-selections
 echo "mysql-server-5.6 mysql-server/root_password_again password $MYSQL_PASS" |  debconf-set-selections
 apt-get -y install mysql-server
-mysqladmin -u root $MYSQL_PASS
 #install php
 apt-get -y install php libapache2-mod-php php-mcrypt php-mysql
 #move php file to the first position within the string
@@ -44,12 +44,10 @@ apt-get -y install owncloud owncloud-deps-php7.0 owncloud-files
 #start MySql server
 /etc/init.d/mysql start
 #Configure MySql Database
-apt-get -y install pwgen
 PASS=`pwgen -s 40 1`
 echo  "Creating OwnCloud password"
 echo $PASS
-MYSQL_ROOT="root"
-mysql -u root -p$MYSQL_ROOT -e "CREATE DATABASE owncloud; GRANT ALL ON owncloud.* to 'owncloud'@'localhost' IDENTIFIED BY '$PASS';"
+mysql -u root -p$MYSQL_PASS -e "CREATE DATABASE owncloud; GRANT ALL ON owncloud.* to 'owncloud'@'localhost' IDENTIFIED BY '$PASS';"
 touch info.txt
 echo "MySQL user created.  " >> info.txt
 echo "MySQL root pwd: $MYSQL_PASS" >> info.txt
