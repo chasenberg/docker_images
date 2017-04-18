@@ -11,7 +11,9 @@ RUN apt-get -y install ufw
 RUN apt-get -y install curl
 RUN apt-get -y install iputils-ping
 RUN apt-get -y install pwgen
+RUN apt-get -y install letsencrypt
 #Owncloud listens on port 80
+EXPOSE 443 
 EXPOSE 80
 RUN mkdir setup
 ADD setup.sh /setup
