@@ -17,3 +17,4 @@ sudo docker ps -a
 ```
 sudo docker attach container_id 
 ```
+*Remember that typing 'exit' in a running container will stop it. Instead press 'ctrl+p' and then 'ctrl+q'!*
