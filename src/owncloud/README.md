@@ -10,10 +10,11 @@ sudo docker run -it
 sudo docker run -it -p 443:443 dockerfile
 ```
 3. Find out the id of the running container:
+ *
 ```
 sudo docker ps -a 
 ```
-    *Attach to the running container:
+ *Attach to the running container:
 ```
 sudo docker attach container_id 
 ```
